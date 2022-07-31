@@ -1,5 +1,6 @@
 // import the Sequelize constructor from ecommerce
 const Sequelize = require('sequelize');
+
 require('dotenv').config();
 
 // create connection to ecommerce database
