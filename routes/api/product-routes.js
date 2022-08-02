@@ -2,11 +2,19 @@ const router = require('express').Router();
 // const { Product, Category, Tag, ProductTag } = require('../../models');
 const { Category, Product } = require('../../models');
 
+// Create Category model
+class Product extends Model {
+  // set up method to run on instance data (per user) to check password
+  checkPassword(loginPw) {
+    return bcrypt.compareSync(loginPw, this.password);
+  }
+}
+
+
 // The `/api/products` endpoint
 
-// get all products
+// find all products
 router.get('/', (req, res) => {
-  // find all products
   // be sure to include its associated Category and Tag data
  // Access Product model and run .findAll() method)
     Product.findAll()

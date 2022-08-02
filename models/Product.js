@@ -1,7 +1,7 @@
 // import important parts of sequelize library
 const { Model, DataTypes } = require('sequelize');
 
-// const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 // import our database connection from config.js
 const sequelize = require('../config/connection');
@@ -46,6 +46,19 @@ Product.init(
     }
   },
   {
+    hooks: {
+       // set up beforeCreate lifecycle "hook" functionality
+       async beforeCreate(newProductData) {
+         newProductData.password = await bcrypt.hash(newProductData.password, 10);
+         return newCategoryData;
+       },
+ 
+       async beforeUpdate(updatedProductData) {
+         updatedProductData.password = await bcrypt.hash(updatedProductData.password, 10);
+         return updatedProductData;
+       } 
+    
+    },
     sequelize,
     timestamps: false,
     freezeTableName: true,
