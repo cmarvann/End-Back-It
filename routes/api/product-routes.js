@@ -10,20 +10,20 @@ router.get('/', (req, res) => {
   // be sure to include its associated Category and Tag data
  // Access Product model and run .findAll() method)
     Product.findAll()
-     // attributes: { exclude: ['password'] },
+     attributes: { exclude: ['password'] }
+})
     .then(dbProductData => res.json(dbProductData))
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
-});
 
 // get one product
 router.get('/:id', (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
   Product.findOne({
-    // attributes: { exclude: ['password'] },
+    attributes: { exclude: ['password'] },
     where: {
       id: req.params.id
     }
