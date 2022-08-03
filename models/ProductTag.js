@@ -1,5 +1,5 @@
 // const { Model, DataTypes } = require('sequelize');
-
+// const bcrypt = require('bcrypt');
 // const sequelize = require('../config/connection');
 
 // class ProductTag extends Model {}
@@ -15,13 +15,15 @@
 //     },
 //     product_id: {
 //       type: DataTypes.INTEGER,
-//       references: product_id,
-//       key: id
+//       allowNull: false,
+//       // references: product_id,
+//       // key: id
 //     },
 //     tag_id: {
 //       type: DataTypes.INTEGER,
-//       references: tag_id,
-//       key: id
+//       allowNull: false,
+//       // references: tag_id,
+//       // key: id
 //     },
 //   },
 //   {

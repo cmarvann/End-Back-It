@@ -19,8 +19,16 @@ Category.init(
       primaryKey: true,
       autoIncrement: true
     },
-    categoryname: {
+    category_name: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    product_name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    category_id: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     email: {
