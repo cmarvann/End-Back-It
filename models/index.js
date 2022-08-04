@@ -18,60 +18,27 @@ const Tag = require('./Tag');
 
 
 // // create associations
-// User.hasMany(Post, {
-//     foreignKey: 'user_id'
-//   });
+Category.hasMany(Product, {
+    foreignKey: 'category_id'
+  });
   
-//   Post.belongsTo(User, {
-//     foreignKey: 'user_id'
-//   });
+  Product.belongsTo(Category, {
+    foreignKey: 'category_id'
+  });
   
-//   User.belongsToMany(Post, {
-//     through: Member,
-//     as: 'member_posts',
-//     foreignKey: 'user_id'
-//   });
+  Product.belongsToMany(Tag, {
+    through: ProductTag,
+    as: 'producttag',
+    foreignKey: 'category_id'
+  });
   
-//   Post.belongsToMany(User, {
-//     through: Member,
-//     as: 'member_posts',
-//     foreignKey: 'post_id'
-//   });
+  Tag.belongsToMany(Product, {
+    through: ProductTag,
+    as: 'producttag',
+    foreignKey: 'tag_id'
+  });
   
-//   Vote.belongsTo(User, {
-//     foreignKey: 'user_id'
-//   });
-  
-//   Vote.belongsTo(Post, {
-//     foreignKey: 'post_id'
-//   });
-  
-//   User.hasMany(Vote, {
-//     foreignKey: 'user_id'
-//   });
-  
-//   Post.hasMany(Vote, {
-//     foreignKey: 'post_id'
-//   });
-  
-//   Comment.belongsTo(User, {
-//     foreignKey: 'user_id'
-//   });
-  
-//   Comment.belongsTo(Post, {
-//     foreignKey: 'post_id'
-//   });
-  
-//   User.hasMany(Comment, {
-//     foreignKey: 'user_id'
-//   });
-  
-//   Post.hasMany(Comment, {
-//     foreignKey: 'post_id'
-//   });
 
-module.exports = { Product, ProductTag, Tag, Category };
 
-// module.exports = { Category, Product, ProductTag, Tag };
-// import he products
-// module.exports = { Category, Product, ProductTag, Tag, User, Post, Loyalty, Comment };
+module.exports = { Category, Product, Tag, ProductTag };
+

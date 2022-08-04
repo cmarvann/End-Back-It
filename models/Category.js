@@ -21,11 +21,15 @@ Category.init(
     },
     category_name: {
       type: DataTypes.STRING,
-      allowNull: false
+      // allowNull: false
     },
     product_name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true,
+      validate: {
+        len:[1, 30]
+      }
     },
     category_id: {
       type: DataTypes.INTEGER,
