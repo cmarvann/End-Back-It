@@ -1,30 +1,25 @@
 const router = require('express').Router();
 
-const { Category, Product, Producttag, Tag } = require('../../models');
+const { Category} = require('../../models');
 
-// const { Category, Product } = require('../../models');
+// const { Category, Product, Producttag, Tag } = require('../../models');
 
 
-// The `/api/categories` endpoint
-// find all categories - be sure to include its associated Products
-// GET all /api/catergory
+// Find all categories including associated products
 router.get('/', (req, res) => {
-  Category.findAll({
-    attributes: { exclude: ['password'] }
-  })
+  Category.findAll()
     .then(dbCategoryData => res.json(dbCategoryData))
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
-  });
+});
+  
 
-
+// Find one categories including associated products, find category by its id value
 router.get('/:id', (req, res) => {
-  // find one category by its `id` value
-  // be sure to include its associated Products
   Category.findOne({
-    attributes: { exclude: ['password'] },
+    
     where: {
       id: req.params.id
     }
@@ -42,13 +37,13 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
  // create a new category
-   // expects {categoryname: 'backendit', email: 'backendit@gmail.com', password: 'password123456'}
+router.post('/', (req, res) => {
+   // expects {categoryname: 'coffee', productname: 'american coffee', category_id: '1'}
    Category.create({
      categoryname: req.body.categoryname,
-     email: req.body.email,
-     password: req.body.password
+     productname: req.body.productname,
+     category_id: req.body.category_id
    })
      .then(dbCategoryData => res.json(dbCategoryData))
      .catch(err => {
@@ -60,10 +55,10 @@ router.post('/', (req, res) => {
 router.post('/login', (req, res) => {
    // login - Query operation
   // create a new category
-    // expects {categoryname: 'backendit', email: 'backendit@gmail.com', password: 'password123456'}
+    // expects {categoryname: 'coffee', product_id: '1', tag-id: '4'}
     Category.findOne({
       where: {
-        email: req.body.email
+        categoryname: req.body.categoryname
       }
     }).then(dbCategoryData => {
     if (!dbCategoryData) {
@@ -87,7 +82,7 @@ router.post('/login', (req, res) => {
 
 router.put('/:id', (req, res) => {
   // update a category by its `id` value
-    // expects {categoryname: 'backendit', email: 'backendit@gmail.com', password: 'password123456'}
+    // expects {categoryname: 'coffee', product_id: '1', tag-id: '4'}
   Category.update(req.body, {
     individualHooks: true,
     where: {

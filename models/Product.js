@@ -1,76 +1,77 @@
-// import important parts of sequelize library
 const { Model, DataTypes } = require('sequelize');
-
+const sequelize = require('../config/connection');
 const bcrypt = require('bcrypt');
 
-// import our database connection from config.js
-const sequelize = require('../config/connection');
-
-// Initialize Product model (table) by extending off Sequelize's Model class
+// create our User model
 class Product extends Model {
   checkPassword(loginPw) {
     return bcrypt.compareSync(loginPw, this.password);
   }
 }
 
-// set up fields and rules for Product model
+// create fields/columns for User model
 Product.init(
   {
-    // define columns
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
+
     product_name: {
       type: DataTypes.STRING,
-      allowNull: false
-    },
-    price: {
-      type: DataTypes.DECIMAL (10, 2),
       allowNull: false,
-      validate: { isDecimal: true
-      }
-    },
-    stock: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultvalue: "10",
-      validate: {isNumeric: true
+      unique: true,
+      validate: {
+        len: [1, 30]
       }
     },
     category_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: id
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        ref:  {model: 'category',
+                key: 'id'
+       }
+      },
+  
+      price: {
+        type: DataTypes.DECIMAL (10, 2),
+        allowNull: false,
+        validate: { isDecimal: true
+        }
+      }, 
+      stock: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultvalue: "10",
+      validate: {isNumeric: true
+
+      }
+      },
+    product_id: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
+  },
+  {
+  hooks: {
+    // set up beforeCreate lifecycle "hook" functionality
+    async beforeCreate(newProductData) {
+      newProductData.password = await bcrypt.hash(newProductData.password, 10);
+      return newProductData;
     },
-    category: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    tag_name: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    hooks: {
-       // set up beforeCreate lifecycle "hook" functionality
-       async beforeCreate(newProductData) {
-         newProductData.password = await bcrypt.hash(newProductData.password, 10);
-         return newCategoryData;
-       },
- 
-       async beforeUpdate(updatedProductData) {
-         updatedProductData.password = await bcrypt.hash(updatedProductData.password, 10);
-         return updatedProductData;
-       } 
-    
-    },
+
+    async beforeUpdate(updatedProductData) {
+      updatedProductData.password = await bcrypt.hash(updatedProductData.password, 10);
+      return updatedProductData;
+    } 
+  },
     sequelize,
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'product',
+    modelName: 'product'
   }
 );
 

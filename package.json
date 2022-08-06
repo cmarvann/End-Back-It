@@ -1,11 +1,13 @@
 {
   "name": "end-back-it",
   "version": "1.0.0",
-  "description": "",
+  "description": "- As a manager at an internet retail company. I want a back end for my e-commerce website that uses the latest technologies, so that my company can compete with other e-commerce companies.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "jest",
+    "start": "node server.js",
+    "seed": "node seeds/index.js"
+
   },
   "repository": {
     "type": "git",
@@ -24,5 +26,8 @@
     "express": "^4.18.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.21.3"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
   }
 }

@@ -1,18 +1,17 @@
 const { Model, DataTypes } = require('sequelize');
-const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
+const bcrypt = require('bcrypt');
 
-// Create Category model
+// create our User model
 class Category extends Model {
-  // set up method to run on instance data (per user) to check password
   checkPassword(loginPw) {
     return bcrypt.compareSync(loginPw, this.password);
   }
 }
 
+// create fields/columns for User model
 Category.init(
   {
-    // define columns
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -21,55 +20,27 @@ Category.init(
     },
     category_name: {
       type: DataTypes.STRING,
-      // allowNull: false
-    },
-    product_name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        len:[1, 30]
-      }
-    },
-    category_id: {
-      type: DataTypes.INTEGER,
       allowNull: false
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true
-        
-      }
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [6]
-      }
-    }
   },
   {
-   hooks: {
-      // set up beforeCreate lifecycle "hook" functionality
-      async beforeCreate(newCategoryData) {
-        newCategoryData.password = await bcrypt.hash(newCategoryData.password, 10);
-        return newCategoryData;
-      },
+  hooks: {
+    // set up beforeCreate lifecycle "hook" functionality
+    async beforeCreate(newCategoryData) {
+      newCategoryData.password = await bcrypt.hash(newCategoryData.password, 10);
+      return newCategoryData;
+    },
 
-      async beforeUpdate(updatedCategoryData) {
-        updatedCategoryData.password = await bcrypt.hash(updatedCategoryData.password, 10);
-        return updatedCategoryData;
-      } 
+    async beforeUpdate(updatedCategoryData) {
+      updatedCategoryData.password = await bcrypt.hash(updatedCategoryData.password, 10);
+      return updatedCategoryData;
+    } 
   },
     sequelize,
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'category',
+    modelName: 'category'
   }
 );
 

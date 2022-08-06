@@ -1,31 +1,25 @@
 const router = require('express').Router();
-const { Category, PRoduct, Tag, Producttag } = require('../../models');
+const { Category, Product} = require('../../models');
 // const { Product } = require('../../models');
 
-// Create Category model
-class Product extends Model {}
+// const { Category, Product, Tag, ProductTag } = require('../../models');
 
-// find all products
+// find all products, include its associated Category and Tag data
 router.get('/', (req, res) => {
-  // be sure to include its associated Category and Tag data
- // Access Product model and run .findAll() method)
     Product.findAll()
-     attributes: { exclude: ['password'] }
-    })
       .then(dbProductData => res.json(dbProductData))
       .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
+});
 
-// get one product
+// ind a single product by its `id`, be sure to include its associated Category and Tag data
 router.get('/:id', (req, res) => {
-  // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
   Product.findOne({
     attributes: { exclude: ['password'] },
     where: {
-      id: req.params.id
+      product_id: req.params.product_id
     }
   })
     .then(dbProductData => {
@@ -48,7 +42,7 @@ router.post('/', (req, res) => {
     productname:req.body.productname,
     price: req.body.price,
     stock: req.body.stock,
-    id: req.body.id
+    category_id: req.body.category_id
     // category_id: req.body.category_id
   })
     .then((product) => {
@@ -166,5 +160,6 @@ router.delete('/:id', (req, res) => {
 });
 
 
-
 module.exports = router;
+
+
